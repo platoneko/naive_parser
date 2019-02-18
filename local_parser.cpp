@@ -295,6 +295,7 @@ ASTree *SyntaxParser::_check_and_parse_local_expression(TokenParser &token_parse
                 }
                 int ident_type = valid_var_table[token_pair.second];
                 if (ident_type >= INT_FUNC) {  // function identifier
+                    maybe_assign = 0;
                     if (ident_type == VOID_FUNC) {
                         if (!maybe_ref_void_func) {
                             cerr << "Invalid operation on void type in line " << token_parser.get_line();
@@ -320,10 +321,12 @@ ASTree *SyntaxParser::_check_and_parse_local_expression(TokenParser &token_parse
                     // current token pair is RB
                     token_vec->push_back(pair<int, ASTree *>(token_pair.first, node));
                 } else if (ident_type >= INT_ARRAY && ident_type <= CHAR_ARRAY) {
+                    maybe_assign = 1;
                     node = _parse_array_elem(token_parser, valid_var_table, token_pair.second, ident_type);
                     // current token pair is RSB
                     token_vec->push_back(pair<int, ASTree *>(token_pair.first, node));
                 } else { // var identifier
+                    maybe_assign = 1;
                     node = new ASTree();
                     node->token_pair.first = ident_type;
                     node->token_pair.second = token_pair.second;
@@ -336,7 +339,6 @@ ASTree *SyntaxParser::_check_and_parse_local_expression(TokenParser &token_parse
                 maybe_lb = 0;
                 maybe_rb = 1;
                 maybe_end = 1;
-                maybe_assign = 1;
             } else {
                 cerr << "Invalid syntax in line " << token_parser.get_line() << " in " << token_parser.get_file_name() << "." << endl;
                 cerr << "Parse interrupted." << endl;
@@ -348,6 +350,7 @@ ASTree *SyntaxParser::_check_and_parse_local_expression(TokenParser &token_parse
                 if (token_pair.first == ASSIGN && !maybe_assign) {
                      cerr << "Expression is not assignable in line " << token_parser.get_line() << " in " << token_parser.get_file_name() << "." << endl;
                      cerr << "Parse interrupted." << endl;
+                     exit(-1);
                 }
                 maybe_const = 1;
                 maybe_ident = 1;
