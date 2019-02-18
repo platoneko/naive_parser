@@ -126,7 +126,14 @@ TokenPair TokenParser::_get_token() {
         case '+': return TokenPair (PLUS, "+");
         case '-': return TokenPair (MINUS, "-");
         case '*': return TokenPair (MUL, "*");
-        case '/': return TokenPair (DIV, "/");
+        case '/':
+            if ((c = fgetc(fp)) == '/' || c == '*') {
+                _parse_comment(c);
+                return _get_token();
+            } else {
+                ungetc(c, fp);
+                return TokenPair (DIV, "/");
+            }
         case '%': return TokenPair (MOD, "\%");
         case '.': return _parse_float_token(c, 1);
         case '\'':
@@ -302,4 +309,35 @@ TokenPair TokenParser::_parse_less_or_includefile_token(char c) {
         }
     }
     else return TokenPair (LT, "<");
+}
+
+
+void TokenParser::_parse_comment(char c) {
+    // current char is '/' or '*'
+    if (c == '/') {
+        while ((c = fgetc(fp)) != '\n' && c != EOF);
+        if (c == '\n') ++cur_line;
+    } else {
+        int comment_line = cur_line;
+        while ((c = fgetc(fp)) != EOF) {
+            if (c == '\n') {
+                ++cur_line;
+            } else if (c == '*') {
+                if ((c = fgetc(fp)) == '/') {
+                    return;
+                } else if (c == '\n') {
+                    ++cur_line;
+                } else if (c == EOF) {
+                    cerr << "Unterminated /* comment in line " << comment_line;
+                    cerr << " in " << file_name << "." << endl;
+                    cerr << "Parse interrupted." << endl;
+                    exit(-1);
+                }
+            }
+        }
+        cerr << "Unterminated /* comment in line " << comment_line;
+        cerr << " in " << file_name << "." << endl;
+        cerr << "Parse interrupted." << endl;
+        exit(-1);
+    }
 }

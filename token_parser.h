@@ -34,6 +34,9 @@ private:
 
     TokenPair _parse_pre_token(char c);
 
+    // Normally exit with current char is '/n' or '/'.
+    void _parse_comment(char c);
+
     TokenPair _parse_less_or_includefile_token(char c);
 
     TokenPair _get_token();
