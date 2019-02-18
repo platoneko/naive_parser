@@ -43,14 +43,14 @@ ASTree *SyntaxParser::_parse_func_dec(TokenParser &token_parser, const string &n
                 
                 if (token_pair.first == COMMA) {  // (int a, ...)
                     func_args.push_back(arg_type-INT+INT_VAR);
-                    args_names.push_back(token_pair.second);
+                    args_names.push_back(arg_name);
                     
                     loc_var_table[arg_name] = (arg_type-INT+INT_VAR);
                 } else if (token_pair.first == LSB) {  // (int a[], ...)
                     _check_init_subscript(token_parser);  
                     // current token pair is RSB
                     func_args.push_back(arg_type-INT+INT_ARRAY);
-                    args_names.push_back(token_pair.second);
+                    args_names.push_back(arg_name);
                     
                     loc_var_table[arg_name] = (arg_type-INT+INT_ARRAY);
 
@@ -68,7 +68,9 @@ ASTree *SyntaxParser::_parse_func_dec(TokenParser &token_parser, const string &n
                     }
                 } else if (token_pair.first == RB) { // (..., int a)
                     func_args.push_back(arg_type-INT+INT_VAR);
-                    args_names.push_back(token_pair.second);
+                    args_names.push_back(arg_name);
+
+                    loc_var_table[arg_name] = (arg_type-INT+INT_VAR);
                     break;
                 } else {
                     cerr << "Invalid syntax in line " << token_parser.get_line();

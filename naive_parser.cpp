@@ -2,7 +2,7 @@
 #include "syntax_parser.h"
 using namespace std;
 
-void pre_ordered_traverse(ASTree *root);
+void pre_ordered_traverse(ASTree *root, int indent=0);
 
 int main(int argc, char* argv[]) {
     FILE *fp;
@@ -21,16 +21,19 @@ int main(int argc, char* argv[]) {
     }
 
     SyntaxParser syntax_parser = SyntaxParser(fp, argv[1]);
-    syntax_parser.parse_syntax();
-    cout << "pass" << endl;
+    root = syntax_parser.parse_syntax();
+    pre_ordered_traverse(root);
     return 0;
 }
 
-void pre_ordered_traverse(ASTree *root) {
+void pre_ordered_traverse(ASTree *root, int indent) {
     if (root != NULL) {
+        for (int i = 0; i < indent; ++i) cout << " ";
+        if (root->token_pair.first >= INT_VAR) {
+            cout << VAR_TYPE[root->token_pair.first - OFFSET] << " ";
+        }
         cout << root->token_pair.second << endl;
-        pre_ordered_traverse(root->child);
-        if (root->child != NULL)
-            pre_ordered_traverse(root->child->brother);
+        pre_ordered_traverse(root->child, indent+1);
+        pre_ordered_traverse(root->brother, indent);        
     }
 }

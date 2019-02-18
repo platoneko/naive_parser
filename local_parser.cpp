@@ -254,7 +254,7 @@ ASTree *SyntaxParser::_parse_local_init(TokenParser &token_parser, VarTable &val
 
 
 ASTree *SyntaxParser::_check_and_parse_local_expression(TokenParser &token_parser, VarTable &valid_var_table, int end_with_rb, int maybe_ref_void_func) {
-    int maybe_const = 1, maybe_ident = 1, maybe_op = 0, maybe_lb = 1, maybe_rb = 0, maybe_end = 0;
+    int maybe_const = 1, maybe_ident = 1, maybe_op = 0, maybe_lb = 1, maybe_rb = 0, maybe_end = 0, maybe_assign = 0;
     int brack_counter = end_with_rb;
     TokenPair token_pair;
     ASTree *root, *node;
@@ -275,6 +275,7 @@ ASTree *SyntaxParser::_check_and_parse_local_expression(TokenParser &token_parse
                 maybe_lb = 0;
                 maybe_rb = 1;
                 maybe_end = 1;
+                maybe_assign = 0;
                 node = new ASTree();
                 node->token_pair = token_pair;
                 token_vec->push_back(pair<int, ASTree *>(token_pair.first, node));
@@ -335,6 +336,7 @@ ASTree *SyntaxParser::_check_and_parse_local_expression(TokenParser &token_parse
                 maybe_lb = 0;
                 maybe_rb = 1;
                 maybe_end = 1;
+                maybe_assign = 1;
             } else {
                 cerr << "Invalid syntax in line " << token_parser.get_line() << " in " << token_parser.get_file_name() << "." << endl;
                 cerr << "Parse interrupted." << endl;
@@ -343,12 +345,17 @@ ASTree *SyntaxParser::_check_and_parse_local_expression(TokenParser &token_parse
             }
         } else if (token_pair.first >= AND && token_pair.first <= ASSIGN) {
             if (maybe_op) {
+                if (token_pair.first == ASSIGN && !maybe_assign) {
+                     cerr << "Expression is not assignable in line " << token_parser.get_line() << " in " << token_parser.get_file_name() << "." << endl;
+                     cerr << "Parse interrupted." << endl;
+                }
                 maybe_const = 1;
                 maybe_ident = 1;
                 maybe_op = 0;
                 maybe_lb = 1;
                 maybe_rb = 0;
                 maybe_end = 0;
+                maybe_assign = 0;
                 node = new ASTree();
                 node->token_pair = token_pair;
                 token_vec->push_back(pair<int, ASTree *>(token_pair.first, node));
@@ -366,6 +373,7 @@ ASTree *SyntaxParser::_check_and_parse_local_expression(TokenParser &token_parse
                 maybe_lb = 1;
                 maybe_rb = 0;
                 maybe_end = 0;
+                maybe_assign = 0;
                 ++brack_counter;
                 token_vec->push_back(pair<int, ASTree *>(token_pair.first, NULL));
             } else {
@@ -384,6 +392,7 @@ ASTree *SyntaxParser::_check_and_parse_local_expression(TokenParser &token_parse
                 maybe_lb = 0;
                 maybe_rb = 1;
                 maybe_end = 1;
+                maybe_assign = 0;
                 token_vec->push_back(pair<int, ASTree *>(token_pair.first, NULL));
             } else {
                 cerr << "Invalid syntax in line " << token_parser.get_line() << " in " << token_parser.get_file_name() << "." << endl;

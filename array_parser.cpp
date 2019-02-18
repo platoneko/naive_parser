@@ -246,7 +246,7 @@ ASTree *SyntaxParser::_parse_array_elem(TokenParser &token_parser, VarTable &val
     root->child->token_pair.first = type;
     root->child->token_pair.second = name;
 
-    root->brother = _check_and_parse_elem_subscript(token_parser, valid_var_table);
+    root->child->brother = _check_and_parse_elem_subscript(token_parser, valid_var_table);
     // current token pair is RSB
     return root;
 }
