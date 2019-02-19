@@ -51,26 +51,6 @@ void TokenParser::_create_token_sequence() {
 }
 
 
-TokenPair TokenParser::get_token() {
-    return token_sequence[++position];
-}
-
-
-void TokenParser::unget_token() {
-    --position;
-}
-
-
-int TokenParser::get_line() {
-    return line_counter[position];
-}
-
-
-string TokenParser::get_file_name() {
-    return file_name;
-}
-
-
 TokenPair TokenParser::_get_token() {
     char c;
     token_buffer_ptr = token_text_buffer;

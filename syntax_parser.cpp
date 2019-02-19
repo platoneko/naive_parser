@@ -43,6 +43,8 @@ ASTree *SyntaxParser::parse_syntax() {
     root->token_pair.second = "PROGRAM";
 
     root->child = _parse_program(token_parser);
+    
+    _indent_format(token_parser);
     return root;
 }
 

@@ -140,6 +140,20 @@ private:
     // After check, call this method to build a expression tree.
     // Return child of EXPRESSION ASTree node.
     ASTree *_parse_expression(std::vector<std::pair<int, ASTree *>> *token_vec);
+
+    // Global format process
+    void _indent_format(TokenParser &token_parser);
+    
+    // Call this function when after a condition expression or encounter a codeblock.
+    // Exit with current char is SEMI(after condition expression) or RCB(codeblock)
+    void _internal_indent_format(TokenParser &token_parser, std::ofstream &output, int indent, int is_block=0);
+    
+    // If end_with_rb = 1, normally exit with current char is RB.
+    // Else normally exit with current char is SEMI.
+    void _format_local_expression(TokenParser &token_parser, std::ofstream &output, int blank=1, int end_with_rb=0);
+
+    void _print_indent(std::ofstream &output, int indent);
+
 public:
     SyntaxParser(FILE *fp, std::string file_name);
     

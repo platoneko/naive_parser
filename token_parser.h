@@ -44,12 +44,24 @@ private:
 public:
     TokenParser(FILE *fp, std::string file_name);
 
-    TokenPair get_token();
+    inline TokenPair get_token() {
+        return token_sequence[++position];
+    }
 
-    void unget_token();
+    inline void unget_token() {
+        --position;
+    }
 
-    int get_line();
+    inline void reset_position() {
+        position = -1;
+    }
 
-    std::string get_file_name();
+    inline int get_line() {
+        return line_counter[position];
+    }
+
+    inline std::string get_file_name() {
+        return file_name;
+    }
 };
 #endif
