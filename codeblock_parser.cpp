@@ -129,6 +129,11 @@ ASTree *SyntaxParser::_parse_codeblock(TokenParser &token_parser, VarTable &vali
         // current token pair is SEMI or RCB
         root->brother = _parse_codeblock(token_parser, valid_var_table, loc_var_table, maybe_conti_break, void_return);
         return root;
+    } else if (token_pair.first == DO) {
+        root = _parse_do_while(token_parser, valid_var_table, loc_var_table, void_return);
+        // current token pair is SEMI or RCB
+        root->brother = _parse_codeblock(token_parser, valid_var_table, loc_var_table, maybe_conti_break, void_return);
+        return root;
     } else if (token_pair.first >= INT && token_pair.first <= VOID) {
         root = new ASTree();
         root->token_pair.first = LOCAL_VAR_DEC;

@@ -116,6 +116,10 @@ private:
     // Normally exit with current token pair is SEMI or RCB.
     // Return WHILE ASTree node.    
     ASTree *_parse_while(TokenParser &token_parser, VarTable &valid_var_table, VarTable &loc_var_table, int void_return);
+    
+    // Normally exit with current token pair is SEMI.
+    // Return DO_WHILE ASTree node.
+    ASTree *_parse_do_while(TokenParser &token_parser, VarTable &valid_var_table, VarTable &loc_var_table, int void_return);
 
     // Normally exit with token pair is SEMI or RCB.
     // Return child of CONTIDITION or ELSE ASTree node.

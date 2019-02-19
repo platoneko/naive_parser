@@ -48,7 +48,24 @@ void SyntaxParser::_internal_indent_format(TokenParser &token_parser, ofstream &
                 _internal_indent_format(token_parser, output, indent+4);
             } 
             if (!is_block) return;
-        } else if (token_pair.first == CONTINUE || token_pair.first == BREAK) {
+        } else if (token_pair.first == DO) {
+            _print_indent(output, indent);
+            output << "do\n";
+            token_pair = token_parser.get_token();
+            if (token_pair.first == LCB) {
+                _print_indent(output, indent);
+                output << "{" << "\n";
+                _internal_indent_format(token_parser, output, indent+4, 1);
+            } else {
+                token_parser.unget_token();
+                _internal_indent_format(token_parser, output, indent+4);
+            }
+            _print_indent(output, indent);
+            output << token_parser.get_token().second;
+            _format_local_expression(token_parser, output, 1);
+            if (!is_block) return;
+        }
+        else if (token_pair.first == CONTINUE || token_pair.first == BREAK) {
             _print_indent(output, indent);
             output << token_pair.second;
             output << token_parser.get_token().second << "\n";

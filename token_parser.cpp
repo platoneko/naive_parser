@@ -17,6 +17,7 @@ void TokenParser::_init_token_table() {
     token_table["if"] = IF;
     token_table["else"] = ELSE;
     token_table["for"] = FOR;
+    token_table["do"] = DO;
     token_table["while"] = WHILE;
     token_table["break"] = BREAK;
     token_table["continue"] = CONTINUE;

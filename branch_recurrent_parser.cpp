@@ -165,6 +165,58 @@ ASTree *SyntaxParser::_parse_while(TokenParser &token_parser, VarTable &valid_va
 }
 
 
+ASTree *SyntaxParser::_parse_do_while(TokenParser &token_parser, VarTable &valid_var_table, VarTable &loc_var_table, int void_return) {
+    // current token pair is DO
+    TokenPair token_pair;
+    ASTree *root; 
+
+    root = new ASTree();
+    root->token_pair.first = DO_WHILE;
+    root->token_pair.second = "DO WHILE";
+
+    root->child = new ASTree();
+    root->child->token_pair.first = DO;
+    root->child->token_pair.second = "DO";
+    
+    root->child->child = _parse_code_after_condition(token_parser, valid_var_table, loc_var_table, 1, void_return);
+    // current token pair is RCB or SEMI
+    if ((token_pair = token_parser.get_token()).first != WHILE) {
+        cerr << "Expected 'while' in line " << token_parser.get_line();
+        cerr << " in " << token_parser.get_file_name() << "." << endl;
+        cerr << "Parse interrupted." << endl;
+        exit(-1);
+    }
+    // current token pair is WHILE
+    root->child->brother = new ASTree();
+    root->child->brother->token_pair.first = WHILE;
+    root->child->brother->token_pair.second = "WHILE";
+    if (token_parser.get_token().first != LB) {
+        cerr << "Expected '(' in line " << token_parser.get_line();
+        cerr << " in " << token_parser.get_file_name() << "." << endl;
+        cerr << "Parse interrupted." << endl;
+        exit(-1);
+    }
+    root->child->brother->child =  _check_and_parse_local_expression(token_parser, valid_var_table, 1);
+    // current token pair is RB or SEMI or COMMA or RCB
+    token_parser.unget_token();
+    if (token_parser.get_token().first != RB) {
+        cerr << "Invalid syntax in line " << token_parser.get_line();
+        cerr << " in " << token_parser.get_file_name() << "." << endl;
+        cerr << "Parse interrupted." << endl;
+        exit(-1);
+    }
+    // current token pair is RB
+    if (token_parser.get_token().first != SEMI) {
+        cerr << "Expected ';' in line " << token_parser.get_line();
+        cerr << " in " << token_parser.get_file_name() << "." << endl;
+        cerr << "Parse interrupted." << endl;
+        exit(-1);
+    }
+    // current token pair is SEMI
+    return root;
+}
+
+
 ASTree *SyntaxParser::_parse_code_after_condition(TokenParser &token_parser, VarTable &valid_var_table, VarTable &loc_var_table, int maybe_conti_break, int void_return) {
     // current token pair is RB
     TokenPair token_pair;
@@ -254,6 +306,10 @@ ASTree *SyntaxParser::_parse_code_after_condition(TokenParser &token_parser, Var
     } else if (token_pair.first == WHILE) {
         root = _parse_while(token_parser, valid_var_table, loc_var_table, void_return);
         // current token pair is SEMI or RCB
+        return root;
+    } else if (token_pair.first == DO) {
+        root = _parse_do_while(token_parser, valid_var_table, loc_var_table, void_return);
+        // current token pair is SEMI
         return root;
     } else if (token_pair.first >= INT && token_pair.first <= VOID) {
         root = new ASTree();
