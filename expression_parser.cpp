@@ -45,9 +45,6 @@ ASTree *SyntaxParser::_parse_expression(vector<pair<int, ASTree *>> *token_vec) 
         }
     } 
      
-    // cout << lowest_prior << endl;
-    // sleep(1);
-
     if (lowest_prior == 1) {
         root = (*token_vec)[root_index].second;
         delete token_vec;

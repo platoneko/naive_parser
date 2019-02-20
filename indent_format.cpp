@@ -6,8 +6,6 @@ using namespace std;
 void SyntaxParser::_internal_indent_format(TokenParser &token_parser, ofstream &output, int indent, int is_block) {
     TokenPair token_pair;
     
-    cout << "_internal_indent_format" << "\n";
-
     while (1) {
         token_pair = token_parser.get_token();
         if ((token_pair.first >= IDENT && token_pair.first <= STR_CONST) || token_pair.first == LB) {  // EXPRESSION;
@@ -175,7 +173,6 @@ void SyntaxParser::_indent_format(TokenParser &token_parser) {
 void SyntaxParser::_format_local_expression(TokenParser &token_parser, ofstream &output, int blank, int end_with_rb) {
     TokenPair token_pair;
     int brack_counter = 0;
-    cout << "_format_local_expression" << "\n";
 
     while (1) {
         token_pair = token_parser.get_token();

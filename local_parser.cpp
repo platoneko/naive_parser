@@ -282,7 +282,6 @@ ASTree *SyntaxParser::_check_and_parse_local_expression(TokenParser &token_parse
             } else {
                 cerr << "Invalid syntax in line " << token_parser.get_line() << " in " << token_parser.get_file_name() << "." << endl;
                 cerr << "Parse interrupted." << endl;
-                cerr << "local_parser _check_and_parse_local_expression 1";
                 exit(-1);
             }
         } else if (token_pair.first == IDENT) {
@@ -301,7 +300,6 @@ ASTree *SyntaxParser::_check_and_parse_local_expression(TokenParser &token_parse
                             cerr << "Invalid operation on void type in line " << token_parser.get_line();
                             cerr << " in " << token_parser.get_file_name() << "." << endl;
                             cerr << "Parse interrupted." << endl;
-                            cerr << "local_parser _check_and_parse_local_expression 2";
                             exit(-1);
                         }
                         root->child = _parse_func_ref(token_parser, valid_var_table, token_pair.second, ident_type);
@@ -311,7 +309,6 @@ ASTree *SyntaxParser::_check_and_parse_local_expression(TokenParser &token_parse
                             cerr << "Invalid operation on void type in line " << token_parser.get_line();
                             cerr << " in " << token_parser.get_file_name() << "." << endl;
                             cerr << "Parse interrupted." << endl;
-                            cerr << "local_parser _check_and_parse_local_expression 3";
                             exit(-1);
                         }
                         delete token_vec;
@@ -342,7 +339,6 @@ ASTree *SyntaxParser::_check_and_parse_local_expression(TokenParser &token_parse
             } else {
                 cerr << "Invalid syntax in line " << token_parser.get_line() << " in " << token_parser.get_file_name() << "." << endl;
                 cerr << "Parse interrupted." << endl;
-                cerr << "local_parser _check_and_parse_local_expression 4";
                 exit(-1);
             }
         } else if (token_pair.first >= AND && token_pair.first <= ASSIGN) {
@@ -365,7 +361,6 @@ ASTree *SyntaxParser::_check_and_parse_local_expression(TokenParser &token_parse
             } else {
                 cerr << "Invalid syntax in line " << token_parser.get_line() << " in " << token_parser.get_file_name() << "." << endl;
                 cerr << "Parse interrupted." << endl;
-                cerr << "local_parser _check_and_parse_local_expression 5";
                 exit(-1);
             }
         } else if (token_pair.first == LB) {
@@ -382,7 +377,6 @@ ASTree *SyntaxParser::_check_and_parse_local_expression(TokenParser &token_parse
             } else {
                 cerr << "Invalid syntax in line " << token_parser.get_line() << " in " << token_parser.get_file_name() << "." << endl;
                 cerr << "Parse interrupted." << endl;
-                cerr << "local_parser _check_and_parse_local_expression 6";
                 exit(-1);
             }
         } else if (token_pair.first == RB) {
@@ -400,7 +394,6 @@ ASTree *SyntaxParser::_check_and_parse_local_expression(TokenParser &token_parse
             } else {
                 cerr << "Invalid syntax in line " << token_parser.get_line() << " in " << token_parser.get_file_name() << "." << endl;
                 cerr << "Parse interrupted." << endl;
-                cerr << "local_parser _check_and_parse_local_expression 7";                
                 exit(-1);
             }
         } else if (token_pair.first == SEMI || token_pair.first == COMMA || token_pair.first == RCB) {
@@ -409,13 +402,11 @@ ASTree *SyntaxParser::_check_and_parse_local_expression(TokenParser &token_parse
             } else {
                 cerr << "Invalid syntax in line " << token_parser.get_line() << " in " << token_parser.get_file_name() << "." << endl;
                 cerr << "Parse interrupted." << endl;
-                cerr << "local_parser _check_and_parse_local_expression 8";
                 exit(-1);
             }
         } else {
             cerr << "Invalid syntax in line " << token_parser.get_line() << " in " << token_parser.get_file_name() << "." << endl;
             cerr << "Parse interrupted." << endl;
-            cerr << "local_parser _check_and_parse_local_expression 9";
             exit(-1);
         }
         maybe_ref_void_func = 0;

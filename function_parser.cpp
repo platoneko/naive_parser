@@ -224,20 +224,17 @@ ASTree *SyntaxParser::_check_and_parse_func_args(TokenParser &token_parser, VarT
     TokenPair token_pair;
     ASTree *root, *node;
     int i, args_count = func_args_table[name].size() - 1;
-    cout << args_count << endl;
     if (args_count == 0) {
         if (token_parser.get_token().first != RB) {
             cerr << "Wrong arguments for function '" << name << "' in line " << token_parser.get_line();
             cerr << " in " << token_parser.get_file_name() << "." << endl;
             cerr << "Parse interrupted." << endl;
-            cerr << "function_parser _check_and_parse_func_args 1" << endl;
             exit(-1);
         }
         return NULL;
     }
 
     root = node = _check_and_parse_local_expression(token_parser, valid_var_table, 1);
-    cout << "arg expression check pass" << endl;
     // current token pair is RB or COMMA or SEMI or RCB
 
     for (i = 1; i < args_count; ++i) {
@@ -246,11 +243,9 @@ ASTree *SyntaxParser::_check_and_parse_func_args(TokenParser &token_parser, VarT
             cerr << "Wrong arguments for function '" << name << "' in line " << token_parser.get_line();
             cerr << " in " << token_parser.get_file_name() << "." << endl;
             cerr << "Parse interrupted." << endl;
-            cerr << "function_parser _check_and_parse_func_args 2" << endl;
             exit(-1);
         }
         node->brother = _check_and_parse_local_expression(token_parser, valid_var_table, 1);
-        // cout << "Debug: arg expression check pass" << endl;
         // current token pair is RB or COMMA or SEMI or RCB
         node = node->brother;
     }
@@ -260,7 +255,6 @@ ASTree *SyntaxParser::_check_and_parse_func_args(TokenParser &token_parser, VarT
         cerr << "Wrong arguments for function '" << name << "' in line " << token_parser.get_line();
         cerr << " in " << token_parser.get_file_name() << "." << endl;
         cerr << "Parse interrupted." << endl;
-        cerr << "function_parser _check_and_parse_func_args 3" << endl;
         exit(-1);
     }
 

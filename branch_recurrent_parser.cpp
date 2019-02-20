@@ -18,14 +18,12 @@ ASTree *SyntaxParser::_parse_branch(TokenParser &token_parser, VarTable &valid_v
             cerr << "Invalid syntax in line " << token_parser.get_line();
             cerr << " in " << token_parser.get_file_name() << "." << endl;
             cerr << "Parse interrupted." << endl;
-            cerr << "branch_recurrent_parser _parse_branch 1" << endl;
             exit(-1);
         }
     } else {
         cerr << "Invalid syntax in line " << token_parser.get_line();
         cerr << " in " << token_parser.get_file_name() << "." << endl;
         cerr << "Parse interrupted." << endl;
-        cerr << "branch_recurrent_parser _parse_branch 2" << endl;
         exit(-1);
     }
     root->child->brother = _parse_code_after_condition(token_parser, valid_var_table, loc_var_table, maybe_conti_break, void_return);
@@ -148,7 +146,6 @@ ASTree *SyntaxParser::_parse_while(TokenParser &token_parser, VarTable &valid_va
             cerr << "Invalid syntax in line " << token_parser.get_line();
             cerr << " in " << token_parser.get_file_name() << "." << endl;
             cerr << "Parse interrupted." << endl;
-            cerr << "branch_recurrent_parser _parse_while 1" << endl;
             exit(-1);
         }
         // current token pair is RB
@@ -159,7 +156,6 @@ ASTree *SyntaxParser::_parse_while(TokenParser &token_parser, VarTable &valid_va
         cerr << "Invalid syntax in line " << token_parser.get_line();
         cerr << " in " << token_parser.get_file_name() << "." << endl;
         cerr << "Parse interrupted." << endl;
-        cerr << "branch_recurrent_parser _parse_while 2" << endl;
         exit(-1);
     }
 }
@@ -233,7 +229,6 @@ ASTree *SyntaxParser::_parse_code_after_condition(TokenParser &token_parser, Var
                 cerr << "Invalid syntax in line " << token_parser.get_line();
                 cerr << " in " << token_parser.get_file_name() << "." << endl;
                 cerr << "Parse interrupted." << endl;
-                cerr << "branch_recurrent_parser _parse_code_after_condition 1" << endl;
                 exit(-1);
             }
             return root;
@@ -241,7 +236,6 @@ ASTree *SyntaxParser::_parse_code_after_condition(TokenParser &token_parser, Var
             cerr << "Invalid syntax in line " << token_parser.get_line();
             cerr << " in " << token_parser.get_file_name() << "." << endl;
             cerr << "Parse interrupted." << endl;
-            cerr << "branch_recurrent_parser _parse_code_after_condition 2" << endl;
             exit(-1);
         }
     } else if (token_pair.first == RETURN) {
@@ -334,7 +328,6 @@ ASTree *SyntaxParser::_parse_code_after_condition(TokenParser &token_parser, Var
             cerr << "Invalid syntax in line " << token_parser.get_line();
             cerr << " in " << token_parser.get_file_name() << "." << endl;
             cerr << "Parse interrupted." << endl;
-            cerr << "branch_recurrent_parser _parse_code_after_condition 3" << endl;
             exit(-1);
         }
         return root;
