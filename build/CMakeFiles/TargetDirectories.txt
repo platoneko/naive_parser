@@ -1,3 +1,0 @@
-/home/cyx/cfiles/naive_parser/build/CMakeFiles/rebuild_cache.dir
-/home/cyx/cfiles/naive_parser/build/CMakeFiles/naive_parser.dir
-/home/cyx/cfiles/naive_parser/build/CMakeFiles/edit_cache.dir
