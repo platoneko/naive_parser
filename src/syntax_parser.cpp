@@ -48,5 +48,3 @@ ASTree *SyntaxParser::parse_syntax() {
     return root;
 }
 
-
-
